@@ -1,0 +1,20 @@
+Net "Flex" LOC = "E7";
+Net "clk" LOC = "L1";
+
+NET "SegDP(7)" LOC = "K13";
+NET "SegDP(6)" LOC = "L15";
+NET "SegDP(5)" LOC = "M15";
+NET "SegDP(4)" LOC = "P15";
+NET "SegDP(3)" LOC = "P14";
+NET "SegDP(2)" LOC = "K15";
+NET "SegDP(1)" LOC = "L14";
+NET "SegDP(0)" LOC = "N15";
+
+NET "SelDP(0)"LOC = "G12";
+NET "SelDP(1)"LOC = "F13";
+NET "SelDP(2)"LOC = "H12";
+NET "SelDP(3)"LOC = "G13";
+NET "SelDP(4)"LOC = "H13";
+NET "SelDP(5)"LOC = "K11";
+NET "SelDP(6)"LOC = "J13";
+NET "SelDP(7)"LOC = "K12";
