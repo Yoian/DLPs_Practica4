@@ -22,7 +22,8 @@ architecture Behavioral of Ejercicio2a is
 	signal delay2: std_logic:='0';
 	signal delay3: std_logic:='0';
 	signal senal: std_logic:='0';
-	signal estado:  std_logic:='0';--integer range 0 to 1:= 0;
+	signal estadoA:  std_logic:='0';--integer range 0 to 1:= 0;
+	
 	
 begin
 	divisor:process(clk)
@@ -44,24 +45,26 @@ begin
 	senal<=delay1 and delay2 and delay3;
 	leds<=senal;
 	
-	activacion: process(senal,estado)
+	activacion: process(senal)
+		variable estadoB:  std_logic:='0';
 	begin
 		--if rising_edge(clk) then
 			if falling_edge(senal) then
-				estado<=not estado;
+				estadoB:=not estadoB;
 			else
-			estado<=estado;
+				estadoB:=estadoB;
 			end if;
+		estadoA<=estadoB;	
 		--end if;
 	end process activacion;
-	prueba<=estado;
+	prueba<=estadoA;
 	
-	MaqEdo:process(estado,clk)
+	MaqEdo:process(estadoA,clk)
 	begin
 		if rising_edge(clk) then
 			case FSM is
 				when EP => 
-					if estado = '0' then 
+					if estadoA = '0' then 
 						FSM <= EP; 
 						motores<="00";
 					else 
@@ -69,7 +72,7 @@ begin
 						motores<="11"; 
 					end if;
 				when EA =>
-					if estado = '0' then 
+					if estadoA = '0' then 
 						FSM <= EP; 
 						motores<="00";
 					else 
