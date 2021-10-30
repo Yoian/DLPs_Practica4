@@ -32,26 +32,27 @@ begin
 		end if;
 	end process divisor;
 	
-	debounce:process(clk,delay1,delay2,delay3)
+	debounce:process(clk)
 	begin
 		if rising_edge(clk) then
 			delay1<=boton;
 			delay2<=delay1;
 			delay3<=delay2;
 		end if;
-		senal<=delay1 and delay2 and delay3;
+		
 	end process debounce;
+	senal<=delay1 and delay2 and delay3;
 	leds<=senal;
 	
-	activacion: process(clk,senal,estado)
+	activacion: process(senal,estado)
 	begin
-		if rising_edge(clk) then
+		--if rising_edge(clk) then
 			if falling_edge(senal) then
 				estado<=not estado;
 			else
 			estado<=estado;
 			end if;
-		end if;
+		--end if;
 	end process activacion;
 	prueba<=estado;
 	
