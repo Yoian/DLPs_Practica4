@@ -15,23 +15,29 @@ end Ejercicio2a;
 
 architecture Behavioral of Ejercicio2a is
 	type edos is (EA,EP);
-	signal ASM:edos:=EA;
+	signal FSM:edos:=EP;
 	
-	signal delay1,delay2,delay3,delay4,senal: std_logic;
-	signal clkdiv: std_logic_vector(N downto 0);
+	signal clkdiv: std_logic_vector(N downto 0);  
+	signal delay1: std_logic:='0';
+	signal delay2: std_logic:='0';
+	signal delay3: std_logic:='0';
+	signal senal: std_logic:='0';
 	signal estado:  integer range 0 to 1:= 0;
+	
+--	signal cnt: integer range 0 to 31:= 0; 
+--	signal Signalservo: std_logic; 
+	
 begin
-
 	divisor:process(clk)
 	begin
-		if rising_edge(clk) then
+		if rising_edge(clk) then 
 			clkdiv<=clkdiv + 1;
 		end if;
 	end process divisor;
 	
-	debounce:process(clkdiv(N),delay1,delay2,delay3)
+	debounce:process(clk,delay1,delay2,delay3)
 	begin
-		if rising_edge(clkdiv(N)) then
+		if rising_edge(clk) then
 			delay1<=boton;
 			delay2<=delay1;
 			delay3<=delay2;
@@ -40,17 +46,36 @@ begin
 	end process debounce;
 	leds<=senal;
 	
-	activacion: process(boton,estado,clk)
+	activacion: process(senal)
 	begin
-		if rising_edge(clk)and boton='1' then
+		if rising_edge(senal) then
 			estado<=estado+1;
 		end if;
-		if estado=1 then
-			motores<="11";
-		else 
-			motores<="00";
-		end if;
 	end process activacion;
-
+	
+	MaqEdo:process(clkdiv(N),estado)
+	begin
+		if rising_edge(clkdiv(N)) then
+			case FSM is
+				when EP => --Primer estado cuando AB = "00"
+					if estado = 0 then 
+						FSM <= EP; 
+						motores<="00";
+					else 
+						FSM <= EA; 
+						motores<="11"; 
+					end if;
+				when EA => --Segundo estado cuando AB = "10"
+					if estado = 0 then 
+						FSM <= EP; 
+						motores<="00";
+					else 
+						FSM <= EA; 
+						motores<="11"; 
+					end if;
+				when others => null;
+			end case;
+		end if;
+	end process MaqEdo;
+	
 end Behavioral;
-
