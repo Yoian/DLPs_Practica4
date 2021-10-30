@@ -1,7 +1,8 @@
 Net "boton" loc = "K1";
 Net "clk" loc = "E7";
 
-Net "leds" loc = "N1";
+Net "leds" loc = "E15";
+Net "prueba" loc = "F15";
 #Net "leds(1)" loc = "R4";
 #Net "leds(2)" loc = "R6";
 
