@@ -1,0 +1,9 @@
+Net "boton" loc = "K1";
+
+Net "leds(0)" loc = "N1";
+Net "leds(1)" loc = "R4";
+Net "leds(2)" loc = "R6";
+
+
+Net "motores(0)" loc = "M5";
+Net "motores(1)" loc = "N9";
