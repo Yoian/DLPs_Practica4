@@ -6,15 +6,21 @@ use IEEE.STD_LOGIC_ARITH.ALL;
 use IEEE.STD_LOGIC_UNSIGNED.ALL;
 
 entity Ejercicio2b is
-	Generic(N:integer:=15);
+	Generic( 
+				min:integer:=0;
+				max:integer:=1000000;
+				inc:integer:=333333;
+				width:integer:=1000000;
+				N:integer:=15);
 	port(
 		clk,boton: in std_logic;
-		leds,prueba: out std_logic;
-		motores: out std_logic_vector(1 downto 0));
+		prueba: out std_logic;
+		leds: out std_logic_vector(1 to 3):="000";
+		motores: out std_logic);
 end Ejercicio2b;
 
 architecture Behavioral of Ejercicio2b is
-	type edos is (EA,EP);
+	type edos is (EA,EB,EC,EP);
 	signal FSM:edos:=EP;
 	
 	signal clkdiv: std_logic_vector(N downto 0);  
@@ -22,7 +28,10 @@ architecture Behavioral of Ejercicio2b is
 	signal delay2: std_logic:='0';
 	signal delay3: std_logic:='0';
 	signal senal: std_logic:='0';
-	signal estado:  integer range 0 to 1:= 0;
+	signal estado:  integer range 0 to 3:= 0;
+
+	signal cntPWM: integer range 1 to width:= 1;  
+	signal high: integer range min to max := min;
 	
 begin
 	divisor:process(clk)
@@ -43,7 +52,7 @@ begin
 		
 	end process debounce;
 	
-	leds<=senal;
+	--leds<=senal;
 	
 	activacion: process(senal,clkdiv(N))
 	begin
@@ -56,30 +65,56 @@ begin
 		end if;
 	end process activacion;
 	
-	MaqEdo:process(estado,clkdiv(N))
+	MaqEdo:process(clkdiv(N))
 	begin
 		if rising_edge(clkdiv(N)) then
 			case FSM is
 				when EP => 
 					if estado = 0 then 
 						FSM <= EP; 
-						motores<="00";
+						leds<="000";
 					else 
-						FSM <= EA; 
-						motores<="11"; 
+						FSM <= EA;  
 					end if;
 				when EA =>
-					if estado = 0 then 
-						FSM <= EP; 
-						motores<="00";
-					else 
+					if estado = 1 then 
 						FSM <= EA; 
-						motores<="11"; 
+						leds<="100";
+					else 
+						FSM <= EB;  
+					end if;
+				when EB =>
+					if estado = 2 then 
+						FSM <= EB; 
+						leds<="110";
+					else 
+						FSM <= EC; 
+					end if;
+				when EC =>
+					if estado = 3 then 
+						FSM <= EC; 
+						leds<="111";
+					else 
+						FSM <= EP; 
 					end if;
 				when others => null;
 			end case;
 		end if;
 	end process MaqEdo;
+	
+	pulso:process(clk)
+	begin
+		if rising_edge(clk) then
+			cntPWM<=cntPWM+1;
+			high<=min+((estado)*(inc));
+			if cntPWM<=high then
+				motores<='1';
+			else
+				motores<='0';
+			end if;
+		else null;
+		end if;
+	end process pulso;
 	
 end Behavioral;
 
