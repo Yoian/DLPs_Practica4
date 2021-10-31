@@ -42,24 +42,25 @@ begin
 		end if;
 		
 	end process debounce;
-	--senal<=delay1 and delay2 and delay3;
-	leds<=senal;
 	
-	activacion: process(senal,estado)
+	leds<=senal;
+	senal<=delay1 and delay2 and delay3;
+	
+	activacion: process(senal,clkdiv(N))
 	begin
-		--if rising_edge(clk) then
+		if rising_edge(clkdiv(N)) then
 			if falling_edge(senal) then
 				estado<=not estado;
 			else
-			estado<=estado;
+				estado<=estado;
 			end if;
-		--end if;
+		end if;
 	end process activacion;
 	prueba<=estado;
 	
-	MaqEdo:process(estado,senal)
+	MaqEdo:process(estado,clkdiv(N))
 	begin
-		if falling_edge(senal) then
+		if rising_edge(clkdiv(N)) then
 			case FSM is
 				when EP => 
 					if estado = '0' then 
