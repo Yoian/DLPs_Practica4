@@ -44,7 +44,7 @@ begin
 	end process debounce;
 	
 	leds<=senal;
-	senal<=delay1 and delay2 and delay3;
+	--senal<=delay1 and delay2 and delay3;
 	
 	activacion: process(senal,clkdiv(N))
 	begin
