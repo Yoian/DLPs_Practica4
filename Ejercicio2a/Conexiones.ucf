@@ -6,5 +6,5 @@ Net "leds" loc = "N1";
 #Net "leds(2)" loc = "R6";
 
 
-Net "motores(0)" loc = "M5";
-Net "motores(1)" loc = "N9";
+Net "motores(0)" loc = "E15";
+Net "motores(1)" loc = "F15";
