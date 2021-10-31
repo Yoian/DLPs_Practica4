@@ -6,7 +6,7 @@ use IEEE.STD_LOGIC_ARITH.ALL;
 use IEEE.STD_LOGIC_UNSIGNED.ALL;
 
 entity Ejercicio2a is
-	Generic(N:integer:=5);
+	Generic(N:integer:=15);
 	port(
 		clk,boton: in std_logic;
 		leds,prueba: out std_logic;
@@ -32,33 +32,34 @@ begin
 		end if;
 	end process divisor;
 	
-	debounce:process(clk)
+	debounce:process(clkdiv(N))
 	begin
-		if rising_edge(clk) then
+		if rising_edge(clkdiv(N)) then
 			delay1<=boton;
 			delay2<=delay1;
 			delay3<=delay2;
 		end if;
 		
 	end process debounce;
-	senal<=delay1 and delay2 and delay3;
-	leds<=senal;
 	
-	activacion: process(senal,estado)
+	leds<=senal;
+	senal<=delay1 and delay2 and delay3;
+	
+	activacion: process(senal,clkdiv(N))
 	begin
-		--if rising_edge(clk) then
+		if rising_edge(clkdiv(N)) then
 			if falling_edge(senal) then
 				estado<=not estado;
 			else
-			estado<=estado;
+				estado<=estado;
 			end if;
-		--end if;
+		end if;
 	end process activacion;
 	prueba<=estado;
 	
-	MaqEdo:process(estado,clk)
+	MaqEdo:process(estado,clkdiv(N))
 	begin
-		if rising_edge(clk) then
+		if rising_edge(clkdiv(N)) then
 			case FSM is
 				when EP => 
 					if estado = '0' then 
