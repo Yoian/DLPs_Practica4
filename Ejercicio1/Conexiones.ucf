@@ -1,0 +1,19 @@
+Net "clk" LOC = "E7";
+
+Net "switches(0)" LOC = "L1";
+Net "switches(1)" LOC = "N2";
+Net "switches(2)" LOC = "P5";
+Net "switches(3)" LOC = "R7";
+Net "switches(4)" LOC = "P9";
+Net "switches(5)" LOC = "N4";
+Net "switches(6)" LOC = "N6";
+Net "switches(7)" LOC = "M8";
+
+Net "leds(0)" LOC = "L2";
+Net "leds(1)" LOC = "P1";
+Net "leds(2)" LOC = "R5";
+Net "leds(3)" LOC = "N8";
+Net "leds(4)" LOC = "R10";
+Net "leds(5)" LOC = "M3";
+Net "leds(6)" LOC = "M5";
+Net "leds(7)" LOC = "N9";
